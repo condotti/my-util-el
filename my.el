@@ -24,6 +24,7 @@
 
 ;;; Code:
 
+;;;###autoload
 (defun my/sample-text-j nil
   "Insert sample japanese text into the buffer."
   (interactive
@@ -41,6 +42,7 @@
     
     "面八句を庵の柱に懸置。")))
 
+;;;###autoload
 (defun my/sample-text nil
   "Insert sample english (er, latin) text into the buffer."
   (interactive
@@ -72,6 +74,7 @@
     "prompta veritus, fabulas ullamcorper vis eu, ei vis probo erroribus. Modus "
     "debitis sed ei. Has dolorem constituam eu, quo te omnis impetus.")))
 
+;;;###autoload
 (defun my/excel-to-org-table ()
   "Convert pasted excel region to org table"
   (interactive)
@@ -82,6 +85,7 @@
             ("\t" . "|")
             ("#[^!]+!" . "")))))
 
+;;;###autoload
 (defun my/space-etc ()
   "Remove zenkaku space etc."
   (interactive)
@@ -114,15 +118,18 @@
                    (point))))
         (copy-region-as-kill beg end)))))
 
+;;;###autoload
 (defun my/insert-date-string (y m d)
   (interactive "nyyyy: \nnmm: \nndd: ")
   (insert (format-time-string "%m/%d(%a) "
                               (encode-time 0 0 0 d m y))))
 
+;;;###autoload
 (defun my/concat (separator &rest sequence)
   "Concatenates a SEQUENCE of strings with a SEPARATOR"
   (mapconcat #'identity sequence separator))
 
+;;;###autoload
 (defun my/org-export-to-pdf ()
   "Export .org to pdf file using wkhtmltopdf."
   (interactive)
@@ -200,6 +207,7 @@ Default to a pdf, or a html if ARG is not nil."
     (string-to-number)
     (zerop)))
 
+;;;###autoload
 (defun my/max-width-for-embedded-instagram (w)
   "Replace max-width: property of embedded instagram code to W px. Default is 300px."
   (interactive "p")
