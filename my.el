@@ -236,5 +236,15 @@ Default to a pdf, or a html if ARG is not nil."
 (when (eq system-type 'windows-nt)
   (add-hook 'window-setup-hook #'my/enable-ime))
 
+;; ----------------------------------------------------------------------
+;; Fix font family of faces
+;; ----------------------------------------------------------------------
+;;;###autoload
+(defun my/set-faces-family (apropos family height)
+  "Set the font family attribute to FAMILY and height to HEIGHT, of faces specified by APROPOS"
+  (dolist (face (face-list))
+    (when (string-match apropos (symbol-name face))
+      (set-face-attribute face nil :family family :height 120))))
+
 (provide 'my)
 ;;; my.el ends here
