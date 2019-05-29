@@ -3,7 +3,7 @@
 ;;; Code:
 
 
-;;;### (autoloads nil "my" "my.el" (23774 5199 0 0))
+;;;### (autoloads nil "my" "my.el" (0 0 0 0))
 ;;; Generated autoloads from my.el
 
 (autoload 'my/sample-text-j "my" "\
@@ -45,6 +45,11 @@ Export .org to pdf file using wkhtmltopdf.
 Replace max-width: property of embedded instagram code to W px. Default is 300px.
 
 \(fn W)" t nil)
+
+(autoload 'my/set-faces-family "my" "\
+Set the font family attribute to FAMILY and height to HEIGHT, of faces specified by APROPOS
+
+\(fn APROPOS FAMILY HEIGHT)" nil nil)
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my" '("my/")))
 
