@@ -240,11 +240,11 @@ Default to a pdf, or a html if ARG is not nil."
 ;; Fix font family of faces
 ;; ----------------------------------------------------------------------
 ;;;###autoload
-(defun my/set-faces-family (apropos family height)
-  "Set the font family attribute to FAMILY and height to HEIGHT, of faces specified by APROPOS"
+(defun my/set-faces-attribute (regexp &rest attributes)
+  "Set ATTRIBUTES to the faces specified by REGEXP"
   (dolist (face (face-list))
-    (when (string-match apropos (symbol-name face))
-      (set-face-attribute face nil :family family :height 120))))
+    (when (string-match regexp (symbol-name face))
+      (apply #'set-face-attribute (append (list face nil) attributes)))))
 
 (provide 'my)
 ;;; my.el ends here
