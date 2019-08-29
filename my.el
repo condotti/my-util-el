@@ -266,34 +266,34 @@ Default to a pdf, or a html if ARG is not nil."
 ;;;###autoload
 (defun my/make-date-dic ()
   "Create date transformation dictionary for anthy"
-  (unless (or (file-exists-p my/date-dic-file)
-	      (string< (thread-last my/date-dic-file
-			 (file-attributes)
-			 (file-attribute-modification-time)
-			 (format-time-string "%F"))
-		       (format-time-string "%F")))
-    (let ((buf (find-file-noselect my/date-dic-file t)))
-      (switch-to-buffer buf)
-      (set-buffer-file-coding-system 'utf-8-unix)
-      (erase-buffer)
-      (cl-loop for (noun . offset) in '(("さきおととい" . -3)
-					("おととい" . -2)
-					("きのう" . -1)
-					("きょう" . 0)
-					("あす" . 1)
-					("あさって" . 2)
-					("しあさって". 3))
-	       do
-	       (dolist (fmt '("%Y/%-m/%-d" "%F" "%Y%m%d"))
-		 (insert noun
-			 " #T35*500 "
-			 (format-time-string fmt
-					     (time-add (current-time)
-						       (seconds-to-time (* offset 24 60 60))))
-			 "\n")))
-      (sort-lines nil (point-min) (point-max))
-      (save-buffer)
-      (kill-buffer buf))))
+  (when (or (not (file-exists-p my/date-dic-file))
+	  (string< (thread-last my/date-dic-file
+		     (file-attributes)
+		     (file-attribute-modification-time)
+		     (format-time-string "%F"))
+		   (format-time-string "%F")))
+      (let ((buf (find-file-noselect my/date-dic-file t)))
+	(switch-to-buffer buf)
+	(set-buffer-file-coding-system 'utf-8-unix)
+	(erase-buffer)
+	(cl-loop for (noun . offset) in '(("さきおととい" . -3)
+					  ("おととい" . -2)
+					  ("きのう" . -1)
+					  ("きょう" . 0)
+					  ("あす" . 1)
+					  ("あさって" . 2)
+					  ("しあさって". 3))
+		 do
+		 (dolist (fmt '("%Y/%-m/%-d" "%F" "%Y%m%d"))
+		   (insert noun
+			   " #T35*500 "
+			   (format-time-string fmt
+					       (time-add (current-time)
+							 (seconds-to-time (* offset 24 60 60))))
+			   "\n")))
+	(sort-lines nil (point-min) (point-max))
+	(save-buffer)
+	(kill-buffer buf))))
 
 ;; Run this once and repeat periodically with idle timer
 (my/make-date-dic)
