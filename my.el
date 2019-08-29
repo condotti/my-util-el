@@ -246,20 +246,6 @@ Default to a pdf, or a html if ARG is not nil."
     (when (string-match regexp (symbol-name face))
       (apply #'set-face-attribute (append (list face nil) attributes)))))
 
-;; ----------------------------------------------------------------------
-;; Create date transformation dictionary for anthy
-;; ** WIP **
-;; ----------------------------------------------------------------------
-;; fileが存在してmtimeが今日なら何もせずに抜ける
-;; それ以外なら
-;;   find-file
-;;   bufferの中身消す
-;;   新規に中身を作り直す
-;;   ソートする
-;;   ファイルをセーブしてbufferを消す
-;;   次回の実行をスケジュールする
-;;
-
 (defvar my/date-dic-file "~/.anthy/imported_words_default.d/date.dic")
 (defvar my/make-date-dic-interval 3600)
 
