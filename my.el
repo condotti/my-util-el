@@ -246,6 +246,9 @@ Default to a pdf, or a html if ARG is not nil."
     (when (string-match regexp (symbol-name face))
       (apply #'set-face-attribute (append (list face nil) attributes)))))
 
+;; ----------------------------------------------------------------------
+;; make date noun to date string conversion dictionary
+;; ----------------------------------------------------------------------
 (defvar my/date-dic-file "~/.anthy/imported_words_default.d/date.dic")
 (defvar my/make-date-dic-interval 3600)
 
@@ -285,6 +288,25 @@ Default to a pdf, or a html if ARG is not nil."
 (my/make-date-dic)
 (defvar my/make-date-dic-timer
   (run-with-idle-timer my/make-date-dic-interval t #'my/make-date-dic))
+
+;; ----------------------------------------------------------------------
+;; insert week plan table
+;; ----------------------------------------------------------------------
+;;;###autoload
+(defun my/insert-week-table (date)
+  "Insert week plan as a table in org or markdown"
+  (interactive "nYYYYMMDD: ")
+  (let* ((year (/ date 10000))
+	 (month (mod (/ date 100) 100))
+	 (day (mod date 100))
+	 (date-in-sec (time-to-seconds (encode-time 0 0 0 day month year))))
+    (save-excursion
+      (dotimes (n 7)
+	(thread-last date-in-sec
+	  (+ (* n 24 60 60))
+	  (seconds-to-time)
+	  (format-time-string "| %-m/%-d(%a) |\n")
+	  (insert))))))
 
 (provide 'my)
 ;;; my.el ends here
