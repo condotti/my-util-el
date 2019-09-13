@@ -129,18 +129,6 @@
   "Concatenates a SEQUENCE of strings with a SEPARATOR"
   (mapconcat #'identity sequence separator))
 
-;;;###autoload
-(defun my/org-export-to-pdfx ()
-  "Export .org to pdf file using wkhtmltopdf."
-  (interactive)
-  (save-excursion
-    (when (eq major-mode 'org-mode)
-      (let* ((html-file (org-html-export-to-html))
-             (pdf-file (concat (file-name-sans-extension html-file) ".pdf")))
-        (shell-command (my/concat " " my-htmltopdf-program my-htmltopdf-args (expand-file-name html-file)
-                                  (file-name-nondirectory pdf-file)))
-        (find-file pdf-file)))))
-
 (setq my-htmltopdf-program "wkhtmltopdf"
       my-htmltopdf-args (my/concat " "
                                    "--header-left [doctitle]"
@@ -307,21 +295,6 @@ Default to a pdf, or a html if ARG is not nil."
 	  (seconds-to-time)
 	  (format-time-string "| %-m/%-d(%a) |\n")
 	  (insert))))))
-;; ----------------------------------------------------------------------
-;; export markdown to pdf
-;; ----------------------------------------------------------------------
-;;;###autoload
-(defun my/markdown-export-to-pdfx ()
-  "Export markdown to pdf file using wkhtmltopdf."
-  (interactive)
-  (save-excursion
-    (when (or (eq major-mode 'markdown-mode)
-	      (eq major-mode 'gfm-mode))
-      (let* ((html-file (markdown-export))
-	     (pdf-file (concat (file-name-sans-extension html-file) ".pdf")))
-	(shell-command (my/concat " " my-htmltopdf-program my-htmltopdf-args (expand-file-name html-file)
-				  (file-name-nondirectory pdf-file)))
-	(find-file pdf-file)))))
 
 ;; ----------------------------------------------------------------------
 ;; convert html to pdf (refactored version of my/(markdown|org)-export-to-pdf
