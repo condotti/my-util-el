@@ -297,6 +297,16 @@ Default to a pdf, or a html if ARG is not nil."
 	  (insert))))))
 
 ;; ----------------------------------------------------------------------
+;; insert gist-it html tags
+;; ----------------------------------------------------------------------
+;;;###autoload
+(defun my/gist-it (url)
+  "Insert gist-it html tags"
+  (interactive "sGithub URL: ")
+  (save-excursion
+    (insert (format "<script src=\"https://gist-it.appspot.com/%s\"></script>\n" url))))
+
+;; ----------------------------------------------------------------------
 ;; convert html to pdf (refactored version of my/(markdown|org)-export-to-pdf
 ;; ----------------------------------------------------------------------
 (defun my/export-to-pdf (fn modes)
