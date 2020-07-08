@@ -238,7 +238,7 @@ Default to a pdf, or a html if ARG is not nil."
 ;; make date noun to date string conversion dictionary
 ;; ----------------------------------------------------------------------
 (defvar my/date-dic-file "~/.anthy/imported_words_default.d/date.dic")
-(defvar my/make-date-dic-interval 3600)
+(defvar my/make-date-dic-interval 300)
 
 ;;;###autoload
 (defun my/make-date-dic ()
