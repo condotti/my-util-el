@@ -281,10 +281,11 @@ Default to a pdf, or a html if ARG is not nil."
 ;; insert week plan table
 ;; ----------------------------------------------------------------------
 ;;;###autoload
-(defun my/insert-week-table (date)
+(defun my/insert-week-table (date-str)
   "Insert week plan as a table in org or markdown"
-  (interactive "nYYYYMMDD: ")
-  (let* ((year (/ date 10000))
+  (interactive "sYYYYMMDD: ")
+  (let* ((date (string-to-int (replace-regexp-in-string "[^0-9]" "" date-str)))
+	 (year (/ date 10000))
 	 (month (mod (/ date 100) 100))
 	 (day (mod date 100))
 	 (date-in-sec (time-to-seconds (encode-time 0 0 0 day month year))))
