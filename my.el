@@ -221,8 +221,8 @@ Default to a pdf, or a html if ARG is not nil."
                          "\""))
          (command (my/concat " " "powershell.exe" "-Command" script)))
     (shell-command-to-string command)))
-(when (eq system-type 'windows-nt)
-  (add-hook 'window-setup-hook #'my/enable-ime))
+;; (when (eq system-type 'windows-nt)
+;;   (add-hook 'window-setup-hook #'my/enable-ime))
 
 ;; ----------------------------------------------------------------------
 ;; Fix font family of faces
@@ -273,9 +273,9 @@ Default to a pdf, or a html if ARG is not nil."
 	(kill-buffer buf))))
 
 ;; Run this once and repeat periodically with idle timer
-(my/make-date-dic)
-(defvar my/make-date-dic-timer
-  (run-with-idle-timer my/make-date-dic-interval t #'my/make-date-dic))
+;; (my/make-date-dic)
+;; (defvar my/make-date-dic-timer
+;;   (run-with-idle-timer my/make-date-dic-interval t #'my/make-date-dic))
 
 ;; ----------------------------------------------------------------------
 ;; insert week plan table
