@@ -284,8 +284,8 @@ Default to a pdf, or a html if ARG is not nil."
 (defun my/insert-week-table (date-str)
   "Insert week plan as a table in org or markdown"
   (interactive "sYYYYMMDD: ")
-  (let* ((date-str (if (eq date-str "") (format-time-string "%Y%m%d") date-str)) ; fix me
-	 (date (string-to-number (replace-regexp-in-string "[^0-9]" "" date-str)))
+  (let* ((date (string-to-number (replace-regexp-in-string "[^0-9]" ""
+							   (if (zerop (length date-str)) (format-time-string "%Y%m%d") date-str))))
 	 (year (/ date 10000))
 	 (month (mod (/ date 100) 100))
 	 (day (mod date 100))
