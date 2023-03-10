@@ -284,7 +284,8 @@ Default to a pdf, or a html if ARG is not nil."
 (defun my/insert-week-table (date-str)
   "Insert week plan as a table in org or markdown"
   (interactive "sYYYYMMDD: ")
-  (let* ((date (string-to-number (replace-regexp-in-string "[^0-9]" "" date-str)))
+  (let* ((date-str (if (eq date-str "") (format-time-string "%Y%m%d") date-str)) ; fix me
+	 (date (string-to-number (replace-regexp-in-string "[^0-9]" "" date-str)))
 	 (year (/ date 10000))
 	 (month (mod (/ date 100) 100))
 	 (day (mod date 100))
@@ -292,10 +293,10 @@ Default to a pdf, or a html if ARG is not nil."
     (save-excursion
       (dotimes (n 7)
 	(thread-last date-in-sec
-	  (+ (* n 24 60 60))
-	  (seconds-to-time)
-	  (format-time-string "| %-m/%-d(%a) |\n")
-	  (insert))))))
+		     (+ (* n 24 60 60))
+		     (seconds-to-time)
+		     (format-time-string "| %-m/%-d(%a) |\n")
+		     (insert))))))
 
 ;; ----------------------------------------------------------------------
 ;; insert gist-it html tags
