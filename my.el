@@ -24,6 +24,9 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'cl-lib))
+
 ;;;###autoload
 (defun my/sample-text-j nil
   "Insert sample japanese text into the buffer."
@@ -278,6 +281,24 @@ Default to a pdf, or a html if ARG is not nil."
 ;;   (run-with-idle-timer my/make-date-dic-interval t #'my/make-date-dic))
 
 ;; ----------------------------------------------------------------------
+;; insert week/month plan table
+;; ----------------------------------------------------------------------
+(defcustom my/table-row-format
+  "| %-m/%-d(%a) |"
+  "Row format of week/month plan table, \"\\n\" will be added automatically."
+  :group 'my
+  :type 'string)
+;;
+(defun my/insert-table-entry (year month day count)
+  "Insert week/month plan table rows"
+  (let ((date-in-sec (time-to-seconds (encode-time 0 0 0 day month year))))
+    (dotimes (n count)
+      (thread-last date-in-sec
+		   (+ (* n 24 60 60))
+		   (seconds-to-time)
+		   (format-time-string (concat my/table-row-format "\n"))
+		   (insert)))))
+;; ----------------------------------------------------------------------
 ;; insert week plan table
 ;; ----------------------------------------------------------------------
 ;;;###autoload
@@ -288,15 +309,28 @@ Default to a pdf, or a html if ARG is not nil."
 							   (if (zerop (length date-str)) (format-time-string "%Y%m%d") date-str))))
 	 (year (/ date 10000))
 	 (month (mod (/ date 100) 100))
-	 (day (mod date 100))
-	 (date-in-sec (time-to-seconds (encode-time 0 0 0 day month year))))
+	 (day (mod date 100)))
     (save-excursion
-      (dotimes (n 7)
-	(thread-last date-in-sec
-		     (+ (* n 24 60 60))
-		     (seconds-to-time)
-		     (format-time-string "| %-m/%-d(%a) |\n")
-		     (insert))))))
+      (my/insert-table-entry year month day 7))))
+
+;; ----------------------------------------------------------------------
+;; insert month plan table
+;; ----------------------------------------------------------------------
+;;;###autoload
+(defun my/insert-month-table (date-str)
+  "Insert month plan as a table in org or markdown"
+  (interactive "sMonth including YYYYMMDD: ")
+  (let* ((date (string-to-number (replace-regexp-in-string "[^0-9]" ""
+							   (if (zerop (length date-str)) (format-time-string "%Y%m%d") date-str))))
+	 (year (/ date 10000))
+	 (month (mod (/ date 100) 100))
+	 (day (mod date 100))
+	 (count (cl-case month
+		  (2 (if (date-leap-year-p year) 29 28))
+		  ((4 6 9 11) 30)
+		  (t 31))))
+    (save-excursion
+      (my/insert-table-entry year month 1 count))))
 
 ;; ----------------------------------------------------------------------
 ;; insert gist-it html tags
